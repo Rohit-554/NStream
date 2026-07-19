@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import androidx.room3.gradle.RoomExtension
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -33,7 +34,7 @@ kotlin {
         browser()
     }
     
-    android {
+    androidLibrary {
        namespace = "io.jadu.nstream.app.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
        minSdk = libs.versions.android.minSdk.get().toInt()
@@ -47,23 +48,17 @@ kotlin {
        withHostTest {
            isIncludeAndroidResources = true
        }
-       withDeviceTestBuilder {
-           sourceSetTreeName = "test"
-       }.configure {
-           instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-       }
     }
     
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.compose.uiTooling)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.compose.uiToolingPreview)
             implementation(libs.ktor.client.okhttp)
-            api(libs.koin.android)
         }
         commonMain.dependencies {
-            api(project(":core"))
+            api(projects.core)
+            implementation(libs.androidx.room3.runtime)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -72,26 +67,24 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-
-            api(libs.koin.core)
-            api(libs.koin.compose)
-            api(libs.koin.compose.viewmodel)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.androidx.room3.runtime)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
         iosMain.dependencies {
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.ktor.client.darwin)
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
         jsMain.dependencies {
-            implementation(libs.wrappers.browser)
             implementation(libs.ktor.client.js)
+            implementation(libs.wrappers.browser)
         }
         jvmMain.dependencies {
             implementation(libs.androidx.sqlite.bundled)
@@ -113,7 +106,6 @@ dependencies {
     add("kspWasmJs", libs.androidx.room3.compiler)
 }
 
-
-room3 {
+extensions.configure<RoomExtension>("room3") {
     schemaDirectory("$projectDir/schemas")
 }
