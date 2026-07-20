@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  title: NStream API
+  version: 1.0.0
+  description: The versioned backend contract for the NStream course project.
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+    get:
+      summary: Liveness check
+      responses:
+        '200':
+          description: The server process is running.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceStatus'
+  /ready:
+    get:
+      summary: Readiness check
+      responses:
+        '200':
+          description: Required startup configuration is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceStatus'
+        '503':
+          description: The server is not ready.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceStatus'
+  /api/v1/example-validation-error:
+    get:
+      summary: Validation-error response example
+      responses:
+        '400':
+          description: A request field failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+components:
+  schemas:
+    ServiceStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          example: ok
+    ValidationErrorResponse:
+      type: object
+      required: [code, message, fields]
+      properties:
+        code:
+          type: string
+          example: validation_error
+        message:
+          type: string
+          example: One or more fields are invalid.
+        fields:
+          type: array
+          items:
+            type: object
+            required: [field, message]
+            properties:
+              field:
+                type: string
+                example: email
+              message:
+                type: string
+                example: Enter a valid email address.
+        requestId:
+          type: string
+          example: 0368d65b-e7aa-493c-8e24-19fb4d92740a

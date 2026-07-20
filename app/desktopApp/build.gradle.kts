@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":app:shared"))
+    implementation(projects.app.shared)
 
     implementation(compose.desktop.currentOs)
     implementation(libs.kotlinx.coroutinesSwing)

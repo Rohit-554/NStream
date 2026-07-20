@@ -1,4 +1,5 @@
 rootProject.name = "NStream"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
