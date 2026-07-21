@@ -14,4 +14,6 @@ interface AccountRepository {
     suspend fun findByEmail(email: String) : AccountRecord?
     suspend fun findById(accountId: UUID): AccountRecord?
     suspend fun create(email: String, passwordHash: String): AccountRecord
+    suspend fun markEmailVerified(accountId: UUID)
+    suspend fun updatePassword(accountId: UUID, passwordHash: String)
 }

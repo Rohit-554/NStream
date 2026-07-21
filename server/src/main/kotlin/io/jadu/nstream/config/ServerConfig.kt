@@ -10,7 +10,8 @@ data class ServerConfig(
     val jwtSecret: String,
     val smtpHost: String,
     val smtpPort: Int,
-    val migrateOnStart: Boolean
+    val migrateOnStart: Boolean,
+    val smtpFrom: String,
 )
 
 object ServerConfigLoader {
@@ -23,6 +24,7 @@ object ServerConfigLoader {
         smtpHost = environment.requiredValue("nstream.smtp.host", "NSTREAM_SMTP_HOST"),
         smtpPort = environment.requiredValue("nstream.smtp.port", "NSTREAM_SMTP_PORT").toIntOrNull()
             ?: error("Server configuration value NSTREAM_SMTP_PORT must be a number."),
+        smtpFrom = environment.requiredValue("nstream.smtp.from", "NSTREAM_SMTP_FROM"),
         migrateOnStart = environment.optionalValue("nstream.database.migrate-on-start", "NSTREAM_DATABASE_MIGRATE_ON_START")
             ?.toBooleanStrictOrNull()
             ?: true,

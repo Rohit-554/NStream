@@ -42,4 +42,8 @@ dependencies {
     implementation(libs.argon2.jvm)
     testImplementation(libs.testcontainers.junit)
     testImplementation(libs.testcontainers.postgresql)
+    implementation(libs.ktor.serverAuth)
+    implementation(libs.ktor.serverAuthJwt)
+    implementation(libs.jakarta.mail)
+    runtimeOnly(libs.angus.mail)
 }

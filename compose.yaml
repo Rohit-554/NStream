@@ -13,6 +13,7 @@ services:
       NSTREAM_JWT_SECRET: ${NSTREAM_JWT_SECRET:-replace-this-local-development-secret-before-deploying}
       NSTREAM_SMTP_HOST: mailpit
       NSTREAM_SMTP_PORT: 1025
+      NSTREAM_SMTP_FROM: ${NSTREAM_SMTP_FROM:-noreply@nstream.local}
     depends_on:
       postgres:
         condition: service_healthy
