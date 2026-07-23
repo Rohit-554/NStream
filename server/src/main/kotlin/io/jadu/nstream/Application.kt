@@ -7,6 +7,7 @@ import io.jadu.nstream.database.DatabaseMigrations
 import io.jadu.nstream.di.serverModule
 import io.jadu.nstream.plugins.configureHttp
 import io.jadu.nstream.routes.authRoutes
+import io.jadu.nstream.routes.contentRoutes
 import io.jadu.nstream.routes.systemRoute
 import io.ktor.server.application.*
 import io.ktor.server.auth.Authentication
@@ -43,5 +44,6 @@ fun Application.module() {
     routing {
         systemRoute(config)
         authRoutes(getKoin().get(), getKoin().get())
+        contentRoutes(getKoin().get())
     }
 }

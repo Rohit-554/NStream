@@ -14,6 +14,8 @@ services:
       NSTREAM_SMTP_HOST: mailpit
       NSTREAM_SMTP_PORT: 1025
       NSTREAM_SMTP_FROM: ${NSTREAM_SMTP_FROM:-noreply@nstream.local}
+      NSTREAM_WATCHMODE_API_KEY: ${NSTREAM_WATCHMODE_API_KEY}
+      NSTREAM_WATCHMODE_BASE_URL: ${NSTREAM_WATCHMODE_BASE_URL:-https://api.watchmode.com/v1}
     depends_on:
       postgres:
         condition: service_healthy

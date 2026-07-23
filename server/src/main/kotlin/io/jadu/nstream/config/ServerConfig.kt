@@ -12,6 +12,8 @@ data class ServerConfig(
     val smtpPort: Int,
     val migrateOnStart: Boolean,
     val smtpFrom: String,
+    val watchModeApiKey: String,
+    val watchModeBaseUrl: String
 )
 
 object ServerConfigLoader {
@@ -28,7 +30,9 @@ object ServerConfigLoader {
         migrateOnStart = environment.optionalValue("nstream.database.migrate-on-start", "NSTREAM_DATABASE_MIGRATE_ON_START")
             ?.toBooleanStrictOrNull()
             ?: true,
-        )
+        watchModeApiKey = environment.requiredValue("nstream.watchmode.api-key", "NSTREAM_WATCHMODE_API_KEY"),
+        watchModeBaseUrl = environment.optionalValue("nstream.watchmode.base-url", "NSTREAM_WATCHMODE_BASE_URL") ?: "https://api.watchmode.com/v1"
+       )
 
     private fun ApplicationEnvironment.requiredValue(propertyName: String, environmentName: String) : String =
         config.propertyOrNull(propertyName)?.getString()
